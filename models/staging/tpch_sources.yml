@@ -11,7 +11,7 @@ sources:
           - name: o_orderkey
             tests:
               - unique
-              - not null
+              - not_null
       - name: lineitem
         columns:
           - name: l_orderkey
