@@ -3,6 +3,7 @@ version: 2
 
 sources:
   - name: tpch
+    description: a clone of raw tpch snowflake database
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
     tables:
