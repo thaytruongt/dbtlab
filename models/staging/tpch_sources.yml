@@ -1,6 +1,5 @@
 version: 2
 
-
 sources:
   - name: tpch
     description: a clone of raw tpch snowflake database
@@ -17,11 +16,10 @@ sources:
               - not_null
           - name: o_orderstatus
             description: status of order in {F,O,P}
-            tests: 
+            tests:
               - accepted_values:
-                  values: ['F','O','P']
-              
-                  
+                  values: ["F", "O", "P"]
+
       - name: lineitem
         description: one unique lineitem per row
         columns:
@@ -31,5 +29,3 @@ sources:
               - relationships:
                   field: o_orderkey
                   to: source('TPCH_SF1','orders')
-
-
