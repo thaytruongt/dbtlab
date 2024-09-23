@@ -9,6 +9,8 @@ models:
             tests:
               - unique
               - not_null
+          - name: status
+            description: "{{ doc('status_code') }}"    
     - name: stg_tpch_line_items
       description: staging line items
       columns:

@@ -15,7 +15,7 @@ sources:
               - unique
               - not_null
           - name: o_orderstatus
-            description: status of order in {F,O,P}
+            description: status of order
             tests:
               - accepted_values:
                   values: ["F", "O", "P"]
