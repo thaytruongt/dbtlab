@@ -7,14 +7,25 @@ sources:
     schema: TPCH_SF1
     tables:
       - name: orders
+        description: one unique order per row
         columns:
           - name: o_orderkey
+            description: primary key
             tests:
               - unique
               - not_null
+          - name: o_orderstatus
+            description: status of order in {F,O,P}
+            tests: 
+              - accepted_values:
+                  values: ['F','O','P']
+              
+                  
       - name: lineitem
+        description: one unique lineitem per row
         columns:
           - name: l_orderkey
+            description: primary key
             tests:
               - relationships:
                   field: o_orderkey
