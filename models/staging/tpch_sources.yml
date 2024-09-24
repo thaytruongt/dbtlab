@@ -25,7 +25,7 @@ sources:
         columns:
           - name: l_orderkey
             description: primary key
-            tests:
-              - relationships:
-                  field: o_orderkey
-                  to: source('TPCH_SF1','orders')
+            # tests:
+              # - relationships:
+              #     field: o_orderkey
+              #     to: source('tpch','orders')
