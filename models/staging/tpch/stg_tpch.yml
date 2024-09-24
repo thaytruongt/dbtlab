@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_tpch_line_items
+    description: Staged item data.
+    columns: 
+      - name: order_item_key
+        description: The primary key for item.
+        tests:
+          - unique
+          - not_null
+  - name: stg_tpch_orders
+    description: Staged order data.
+    columns:
+      - name: order_key
+        description: Primary key for orders.
+        tests:
+          - unique
+          - not_null
+  
