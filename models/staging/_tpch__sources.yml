@@ -14,18 +14,18 @@ sources:
             tests:
               - unique
               - not_null
-          # - name: o_orderstatus
-          #   description: status of order
-          #   tests:
-          #     - accepted_values:
-          #         values: ["F", "O", "P"]
+          - name: o_orderstatus
+            description: status of order
+            tests:
+              - accepted_values:
+                  values: ["F", "O", "P"]
 
       - name: lineitem
         description: one unique lineitem per row
         columns:
           - name: l_orderkey
             description: foreign key
-            # tests:
-              # - relationships:
-              #     field: o_orderkey
-              #     to: source('tpch','orders')
+            tests:
+              - relationships:
+                  field: o_orderkey
+                  to: source('tpch','orders')

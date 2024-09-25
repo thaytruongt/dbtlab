@@ -9,14 +9,14 @@ models:
           tests:
             - unique
             - not_null
-        # - name: status_code
-        #   description: "{{ doc('order_status') }}" 
-        #   tests:
-        #     - accepted_values:
-        #        values:
-        #         - F
-        #         - P
-        #         - O   
+        - name: status_code
+          description: "{{ doc('order_status') }}" 
+          tests:
+            - accepted_values:
+               values:
+                - F
+                - P
+                - O   
     - name: stg_tpch_line_items
       description: staging line items
       columns:
