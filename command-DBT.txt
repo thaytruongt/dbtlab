@@ -1,0 +1,98 @@
+models:
+  data_pipline:
+    # Applies to all files under models/example/
+    staging:
+      +materialized: view
+       #snowflake_warehouse: dbt_wh
+
+    marts:
+      +materialized: table
+       #snowflake_warehouse: dbt_wh
+	   
+	   
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.0.0	 
+
+-staging
+    +stg_tpch_orders.sql
+	  select 
+		 o_orderkey as order_key,
+		 o_custkey as customer_key,
+		 o_orderstatus as status_code,
+		 o_totalprice as total_price,
+		 o_orderdate as order_date
+         from {{source('tpch','orders')}}
+	+ tpch_sources.yml
+	
+		version: 2
+
+
+		sources:
+		  - name: tpch
+			database: SNOWFLAKE_SAMPLE_DATA
+			schema: TPCH_SF1
+			tables:
+			  - name: orders
+			    loaded_at_field: _batched_at
+			    freshness:
+				  warn_after: {count: 12, period: hour}
+				  error_after: {count: 24, period: hour}
+				columns:
+				  - name: o_orderkey
+					tests:
+					  - unique
+					  - not null
+			  - name: lineitem
+				columns:
+				  - name: l_orderkey
+					tests:
+					  - relationships:
+						  field: o_orderkey
+						  to: source('TPCH_SF1','orders')
+
+--macros:
+  {% macro discounted_amount(extended_price,discount_percentage, scale=2) %}
+    (-1*{{ extended_price }}*{{discount_percentage}})::decimal(16, {{ scale }})
+	{% endmacro %}
+   
+--create fact_order.sql
+		select 
+			orders.*,
+			order_items_summary.gross_item_sales_amount,
+			order_items_summary.item_discount_amount
+		from {{ ref('stg_tpch_orders') }} as orders
+		join
+		{{ ref('int_order_items_summary') }} as order_items_summary
+		  on orders.order_key = order_items_summary.order_key
+
+		  order by order_date	
+  
+  
+		select 
+		 order_key,
+		 sum(extended_price) as gross_item_sales_amount,
+		 sum(item_discount_amount) as item_discount_amount
+		from 
+		{{ ref('int_order_items') }}
+		group by order_key
+		
+--config result table or view
+
+{{
+  config(
+        materialized ='table' 
+  )
+
+}}		
+
+
+
++ command
+dbt run
+dbt run -s customer
+dbt run -s customer+
+dbt run -s +customer+
+
+dbt test --select <filename>
+ dbt source freshness

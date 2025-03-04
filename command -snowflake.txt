@@ -1,0 +1,58 @@
+ 
+ 
+use role accountadmin;
+
+create warehouse dbt_wh with warehouse_size='x-small';
+create database dbt_db;
+create role dbt_role;
+
+show grants on warehouse dbt_wh;
+ snowflake: thaytruongt/
+ 
+ 
+grant usage on warehouse dbt_wh to role dbt_role;
+grant role dbt_role to user thaytruongt;
+grant all on database dbt_db to role dbt_role;
+
+use role dbt_role;
+create schema dbt_db.dbt_schema;
+
+
+/*use role accountadmin;
+
+drop  warehouse if exists dbt_wh;
+drop database if exists dbt_db;
+drop role if exists dbt_role;*/
+
+https://jc72295.southeast-asia.azure.snowflakecomputing.com
+https://jc72295.southeast-asia.azure.snowflakecomputing.com
+
+
+
+select * from DBT_DB.DBT_TTRUONG.MY_SECOND_DBT_MODEL
+select * from DBT_DB.DBT_SCHEMA.EMP
+
+------------------------------------
+use role accountadmin;
+
+grant MANAGE GRANTS on account to role dbt_role;
+
+use role dbt_role;
+
+grant select on future tables in schema dbt_db.DBT_TTRUONG to role dbt_role; -- this works
+show grants on database dbt_db; //custom_role-->owner//
+show grants on schema dbt_db.DBT_TTRUONG;  //custom_role-->owner//
+
+
+use role accountadmin;
+grant usage on database dbt_db to role dbt_role;
+grant usage on schema dbt_db.DBT_TTRUONG to role dbt_role; 
+grant select on all tables in schema dbt_db.DBT_TTRUONG to role dbt_role;
+
+
+CREATE USER trungnt PASSWORD='abc123';
+
+grant role dbt_role to user trungnt;
+
+
+SHOW USERS;
